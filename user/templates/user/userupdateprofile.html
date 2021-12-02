@@ -1,0 +1,100 @@
+{% extends 'post/base.html' %}
+{% load static %}
+{% block title %}
+  <title>{{title}}</title>
+{% endblock title %}
+
+{% block content %}
+<div class="content">
+  <h2 id='username_profile'></h2>
+  <p id='email_profile'></p>
+
+  <form id='idForm' action="#">
+    <div class="content">
+      <p>Username :</p>
+      <div class="search-box">
+        <input id='username_form' type="text" name="username"  maxlength="30" required id="id_username">
+      </div>
+      <p>Email :</p>
+      <div class="search-box">
+        <input id='email_form' type="email" name="email"  maxlength="50" required id="id_email">
+      </div>
+      <p>Profilepic :</p>
+      <input id='img_form' name="image" type="file" value="http://127.0.0.1:8000/media/DefaultImages/user.jpg">
+    </div>
+    <input class="a-btn" type="submit" value="Submit">
+  </form>
+
+</div>
+
+
+
+
+
+  <script>
+    var profile_url = "{% url 'api:manage' %}";
+
+    $(document).ready(function() {
+
+      $.ajax({
+          type: "GET",
+          url: profile_url,
+          processData: false,
+          contentType: "application/json",
+          data: '',
+          headers: {
+            'Authorization': 'Token ' + window.localStorage.getItem('token')
+          },
+          success: function(r) {
+            $('#username_profile').text(r.username);
+            $('#email_profile').text('Email : ' + r.email);
+            $('#username_form').val(r.username);
+            $('#email_form').val(r.email);
+            $('#img_form').val(r.image);
+          },
+          error: function(r) {
+              console.log("Something went wrong!");
+          }
+      });
+
+
+      `update profile`
+
+      $( 'form' ).submit(function ( e ) {
+        // var data;
+        e.preventDefault();
+
+        var data = new FormData();
+        image = $( '#img_form' ).prop('files')[0];
+        data.append( 'username', $( '#username_form' ).val() );
+        data.append( 'email', $( '#email_form' ).val() );
+        if (image) {
+          data.append( 'image', image );
+        }
+
+        
+        // data.append( 'image',  );
+        $.ajax({
+            url: "{% url 'api:manage' %}",
+            data: data,
+            processData: false,
+            contentType: false,
+            cache:false,
+            type: 'PATCH',
+            headers:{
+              'Authorization': 'Token ' + window.localStorage.getItem('token'),
+            },
+            success: function ( data ) {
+                window.location.href = "{% url 'profile' %}";
+            }
+        });
+
+        e.preventDefault();
+    });
+
+    })
+  </script>
+
+
+
+{% endblock content %}

@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+    {% endblock title %}
+    <style>
+      :root {
+        --bg_image : url("{% static 'images/bg2.jpg' %}");
+      }
+      blockquote{
+        /* width: 100%; */
+        background-color: rgba(235, 158, 158, 0.2);
+        padding: 20px;
+        border-radius:15px;
+        box-shadow: 15px 15px 15px rgba(54, 52, 52, 0.25);
+        
+      }
+    </style>
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="{% static 'css/medium-editor.css' %}">
+    <link rel="stylesheet" href="{% static 'css/medium-editor.min.css' %}">
+
+    <script src="{% static 'js/medium-editor.js' %}"></script>
+    <script src="{% static 'js/medium-editor.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/Glassmorphism.css' %}">
+    <link rel="stylesheet" href="{% static 'css/search.css' %}">
+
+</head>
+<body>
+  <section>
+    <div class="container" id="container">
+      <header>
+        <a href="{% url 'postapp:postlist' %}" class='logo'>Questionnaire</a>
+        <ul>
+          <li><a href="{% url 'postapp:postlist' %}" class='active'>Home</a></li>
+
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'postapp:postcreate' %}">Ask</a></li>
+          <li><a href="{% url 'postapp:draflist' %}">Draft</a></li>
+          <li><a href="{% url 'profile' %}">{{ user.username }}</a></li>
+          <li><a href="{% url 'logout' %}">Logout</a></li>
+          {% else %}
+          <li><a href="{% url 'login' %}">Login</a></li>
+          {% endif %}
+        </ul>
+      </header>
+      <div class="content">
+        <div class="search-box">
+          <input id="input" type="text" placeholder="search">
+  
+          <img src="{% static 'images/search.png' %}" alt="">
+        </div>
+        <div class="autocom-box">
+          <ul id='search_item'>
+          </ul>
+        </div>
+    </div>
+      {% block content %}
+      {% endblock content %}
+      <ul class='sci' id='sci'>
+        <li><a href="https://www.facebook.com/hemel.akash.7" target="_blank"><img src="{% static 'images/facebook.png' %}"></a></li>
+        <li><a href="https://twitter.com/HSAkash5" target="_blank"><img src="{% static 'images/twitter.png' %}"></a></li>
+        <li><a href="https://www.instagram.com/" target="_blank"><img src="{% static 'images/instagram.png' %}"images></a></li>
+      </ul>
+
+    </div>
+  </section>
+  <p>Copyright @ 2021 Online Tutorial. All Right Reserved.</p>
+  <script>
+    var questionlist_url = "{% url 'api:question-list' %}";
+  </script>
+  <script src="{% static 'js/search.js' %}">
+
+  </script>
+</body>
+</html>

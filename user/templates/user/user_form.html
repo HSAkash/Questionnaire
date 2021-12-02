@@ -1,0 +1,31 @@
+{% extends 'post/base.html' %}
+{% load static %}
+{% block title %}
+  <title>{{object.username}}</title>
+{% endblock title %}
+
+{% block content %} 
+      <div class="content">
+        <h2>{{object.username}}</h2>
+        <p>Email : {{object.email}}</p>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="content">
+            <p>{{form.username.label}} :</p>
+              <div class="search-box">
+                {{form.username}}
+              </div>
+              <p>{{form.email.label}} :</p>
+              <div class="search-box">
+                {{form.email}}
+              </div>
+              <p>{{form.image.label}} :</p>
+                {{form.image}}
+
+          </div>
+          <input class='a-btn' type="submit" value="Submit">
+        </form>
+
+      </div>
+      
+{% endblock content %}

@@ -1,0 +1,90 @@
+
+:root{
+    --bgcolor: #03e9f4;
+  }
+  
+  
+  #answer-give.btn{
+    position: relative;
+    display: inline-block;
+    padding: 25px 30px;
+    margin: 40px 0;
+    color: var(--bgcolor);
+    font-size: 24px;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: 0.5s;
+    letter-spacing: 4px;
+    margin: 10px;
+  }
+  
+  #answer-give.btn:hover{
+    background: var(--bgcolor);
+    color:#050801;
+    box-shadow: 0 0 5px var(--bgcolor),
+                0 0 25px var(--bgcolor),
+                0 0 50px var(--bgcolor),
+                0 0 200px var(--bgcolor);
+    transition-delay: .5s;
+    -webkit-box-reflect: below 1px linear-gradient(transparent, #0005);
+  }
+  
+  
+  
+  #answer-give.btn:hover span:nth-child(1){
+      width: 100%;
+  }
+  #answer-give.btn:hover span:nth-child(3){
+      width: 100%;
+  }
+  #answer-give.btn:hover span:nth-child(2){
+      height: 100%;
+  }
+  #answer-give.btn:hover span:nth-child(4){
+      height: 100%;
+  }
+  
+  #answer-give.btn span:nth-child(1){
+    width: 10%;
+    height: 4px;
+    background: var(--bgcolor);
+    top: 0;
+    left: 0;
+    position: absolute;
+    transition: width .5s linear;
+  }
+  #answer-give.btn span:nth-child(2){
+    width: 4px;
+    height: 20%;
+    background: var(--bgcolor);
+    top: 0;
+    left: 0;
+    position: absolute;
+    transition: height .5s linear;
+  }
+  #answer-give.btn span:nth-child(3){
+    width: 10%;
+    height: 4px;
+    background: var(--bgcolor);
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    transition: width .5s  linear;
+  }
+  #answer-give.btn span:nth-child(4){
+    width: 4px;
+    height: 20%;
+    background: var(--bgcolor);
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    transition: height .5s linear;
+  }
+  /* #answer-give:nth-child(2){
+      --bgcolor:red;
+  }
+  #answer-give:nth-child(3){
+      --bgcolor:#bfd200;
+  }
+   */

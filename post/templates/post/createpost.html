@@ -1,0 +1,81 @@
+{% extends 'post/base.html' %}
+{% load static %}
+{% block title %}
+  <title>Ask Question</title>
+{% endblock title %}
+
+{% block content %}
+  
+    <style>
+        .editable{
+        height: calc(40px * 5);
+        padding: 10px;
+        width: 100%;
+        border-radius: 30px;
+        outline: none;
+        margin-bottom: 20px;
+        }
+    </style>
+  <div class="content">
+    <!-- <h2>admin</h2> -->
+      <form id="idForm" method="post" method="post", action="{% url 'api:question-list' %}">
+        
+        <!-- <div class="content"> -->
+          <p>Title :</p>
+            <div class="search-box">
+              <input type="text" name="title" maxlength="200" required="" id="id_title">
+            </div>
+            <p>Text :</p>
+            <div class="search-box">
+              <textarea class="editable medium-editor-textarea medium-editor-element" name="description" cols="40" rows="10" required="" id="id_text"></textarea>
+            </div>
+        <!-- </div> -->
+        <input class="a-btn" type="submit" value="Submit">
+
+      </form>
+  </div>
+    <script>
+        var editor = new MediumEditor('.editable');
+        textarea.addEventListener('keydown', autosize);
+             
+        function autosize(){
+        var el = this;
+        setTimeout(function(){
+            el.style.cssText = 'height:auto; padding:0';
+            // for box-sizing other than "content-box" use:
+            el.style.cssText = '-moz-box-sizing:content-box';
+            el.style.cssText = 'height:' + el.scrollHeight + 'px';
+        },0);
+        }
+
+    </script>
+
+  <script>
+    $("#idForm").submit(function(e) {
+    
+    
+        var form = $(this);
+        var url = form.attr('action');
+        $.ajax({
+               type: "POST",
+               url: url,
+               data: form.serialize(), // serializes the form's elements.
+               headers: {
+                    'Authorization': 'Token ' + window.localStorage.getItem('token')
+               },
+               success: function(data)
+               {
+                location.replace("{% url 'postapp:draflist' %}");
+               },
+                error: function(data)
+                {
+                    console.log(data);
+                }
+             });
+    
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+    });
+    </script>
+  
+  
+{% endblock content %}
