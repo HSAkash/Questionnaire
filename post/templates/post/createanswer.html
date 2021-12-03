@@ -14,6 +14,7 @@
         border-radius: 30px;
         outline: none;
         margin-bottom: 20px;
+        position: relative;
         }
     </style>
   <div class="content">
@@ -24,15 +25,17 @@
           <p>{{title}}</p>
             <p>Text :</p>
             <div class="search-box">
-              <textarea class="editable medium-editor-textarea medium-editor-element" name="description" cols="40" rows="10" required="" id="id_text"></textarea>
+              <textarea style="overflow: hidden" class="editable medium-editor-textarea medium-editor-element" name="description" cols="40" rows="10" required="" id="id_text"></textarea>
             </div>
         <!-- </div> -->
         <input class="a-btn" type="submit" value="Submit">
 
       </form>
   </div>
+  <script>var editor = new MediumEditor('.editable');</script>
     <script>
-        var editor = new MediumEditor('.editable');
+        
+        var textarea = document.querySelector('.editable');
         textarea.addEventListener('keydown', autosize);
              
         function autosize(){

@@ -12,6 +12,7 @@ urlpatterns = [
     path('question/<int:pk>/', views.QuestionDetailView, name='postdetail'),
     path('question/new/', views.AskQuestion, name='postcreate'),
     path('draft/<int:pk>/edit/', views.EditDraft, name='draftedit'),
+    path('draft/<int:pk>/publish/', views.pulished_darf, name='draf_publish'),
     path('draft/<int:pk>/', views.Draftdetail, name='draftdetail'),
     path('draft/', views.Draflist, name='draflist'),
 ]

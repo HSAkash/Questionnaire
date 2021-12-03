@@ -8,7 +8,7 @@
   <div style='display:none' class="content" id="draftcontent">
     <h3 id='title'></h3>
     <p id="description" class="text"></p>
-    <a id='publish' href="#">Publish</a>
+    <a id='publish' href="{% url 'postapp:draf_publish' pk %}">Publish</a>
     <a href="{% url 'postapp:draftedit' pk %}">Edit</a>
     <a id="deletedraft" href="#">Delete</a>
     <a id="deleteconfirm" style="display:none" href="#">Confirm</a>
@@ -75,24 +75,6 @@
       });
     });
 
-    $('#publish').click(function() {
-      $.ajax({
-          type: "GET",
-          url: "{% url 'api:draf-publish' pk %}",
-          processData: false,
-          contentType: "application/json",
-          data: '',
-          headers: {
-            'Authorization': 'Token ' + localStorage.getItem('token')
-          },
-          success: function(r) {
-            window.location.href = "{% url 'postapp:draflist' %}";
-          },
-          error: function(r) {
-              console.log("Something went wrong!");
-          }
-      });
-    });
     
   </script>
 {% endblock content %}

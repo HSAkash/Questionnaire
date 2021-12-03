@@ -15,7 +15,7 @@ urlpatterns = [
     path('token/', views.CreateTokenView.as_view(), name='token'),
     path('manage/', views.ManagerUserView.as_view(), name='manage'),
     # path('updateprofile/', include(router.urls)),
-    path('draf/<int:pk>/publish', views.pulished_darf, name='draf-publish'),
+    # path('draf/<int:pk>/publish', views.pulished_darf, name='draf-publish'),
 ]
 
 from rest_framework import renderers

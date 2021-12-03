@@ -131,6 +131,7 @@
               'Authorization': 'Token ' + window.localStorage.getItem('token')
               },
               success: function(r) {
+                console.log(r['results']);
                 for (var i = 0; i < r['results'].length; i++) {
                     // $('body').append("<div><h1>"+r[i].videoName+"</h1><h2>Video Views: "+r[i].videoViews+"</h2></div>")
                     $('#container').append(

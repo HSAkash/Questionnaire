@@ -82,7 +82,8 @@ class AnswerViewSet(viewsets.ModelViewSet):
     def get_queryset(self, pk=None, **kwargs):
         if not pk:
             temp_path = self.request.get_full_path().split('/')
-            return self.queryset.filter(question__id__in=temp_path[3])
+            # return self.queryset.filter(question__id__in=temp_path[3])
+            return self.queryset.filter(question=post_models.Question.objects.get(id= temp_path[3]))
         return self.queryset
 
 class QuestionViewSet(viewsets.ModelViewSet):
@@ -117,13 +118,14 @@ class DarfViewSet(viewsets.ModelViewSet):
         return self.queryset.filter(user=self.request.user)
 
 
-@api_view(('GET',))
-def pulished_darf(request, pk):
-    """
-    publish question
-    """
-    question = get_object_or_404(post_models.Question, id=pk)
-    if request.user == question.user:
-        question.publish()
-        return Response(status=status.HTTP_200_OK)
-    return Response(status=status.HTTP_401_UNAUTHORIZED)
+# @api_view(('GET',))
+# def pulished_darf(request, pk):
+#     """
+#     publish question
+#     """
+#     print(request.user)
+#     question = get_object_or_404(post_models.Question, id=pk)
+#     if request.user == question.user:
+#         question.publish()
+#         return Response(status=status.HTTP_200_OK)
+#     return Response(status=status.HTTP_401_UNAUTHORIZED)

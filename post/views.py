@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.http import HttpResponse, HttpResponseRedirect
 from post import models as post_models
 from user import models as user_models
+from django.shortcuts import render, redirect
 
 def check_user(request, obj):
     return request.user == obj.user
@@ -96,6 +97,18 @@ def EditAnswer(request, pk_q, pk_a):
         'answer': True,
     }
     return render(request, 'post/answeredit.html', context=context)
+
+@login_required
+def pulished_darf(request, pk):
+    """
+    publish question
+    """
+    print(request.user)
+    question = get_object_or_404(post_models.Question, id=pk)
+    if request.user == question.user:
+        question.publish()
+        return redirect('postapp:draflist')
+    return redirect('postapp:postdetail')
 
 
 
