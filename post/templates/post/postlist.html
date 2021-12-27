@@ -1,13 +1,13 @@
 {% extends 'post/base.html' %}
 {% load static %}
 {% block title %}
-  <title>Home</title>
+<title>Home</title>
 {% endblock title %}
 
 {% block content %}
 
-  <script>
-    var questionlist_url = "{% url 'api:question-list' %}";
-  </script>
-  <script src="{% static 'js/questionlist.js' %}"></script>
+<script>
+  var questionlist_url = "{% url 'api_post:question-list' %}";
+</script>
+<script src="{% static 'js/questionlist.js' %}"></script>
 {% endblock content %}

@@ -1,13 +1,13 @@
 {% extends 'post/base.html' %}
 {% load static %}
 {% block title %}
-  <title>Home</title>
+<title>Home</title>
 {% endblock title %}
 
 {% block content %}
 
-  <script>
-    var draflist_url = "{% url 'api:draf-list' %}";
-  </script>
-  <script src="{% static 'js/draftlist.js' %}"></script>
+<script>
+  var draflist_url = "{% url 'api_post:draf-list' %}";
+</script>
+<script src="{% static 'js/draftlist.js' %}"></script>
 {% endblock content %}

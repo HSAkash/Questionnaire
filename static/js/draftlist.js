@@ -8,7 +8,7 @@ $(document).ready(function() {
 			contentType: "application/json",
 			data: '',
 			headers: {
-				'Authorization': 'Token ' + window.localStorage.getItem('token')
+				'Authorization': token
 			},
 			success: function(r) {
 				for (var i = 0; i < r['results'].length; i++) {
@@ -42,7 +42,7 @@ $(window).scroll(function() {
 								contentType: "application/json",
 								data: '',
 								headers: {
-									'Authorization': 'Token ' + window.localStorage.getItem('token')
+									'Authorization': token
 							   },
 								success: function(r) {
 										for (var i = 0; i <  r['results'].length; i++) {

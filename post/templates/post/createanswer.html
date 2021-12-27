@@ -1,81 +1,64 @@
 {% extends 'post/base.html' %}
 {% load static %}
 {% block title %}
-  <title>{{title}}</title>
+<title>{{title}}</title>
 {% endblock title %}
 
 {% block content %}
-  
-    <style>
-        .editable{
-        height: calc(40px * 5);
-        padding: 10px;
-        width: 100%;
-        border-radius: 30px;
-        outline: none;
-        margin-bottom: 20px;
-        position: relative;
-        }
-    </style>
-  <div class="content">
-    <!-- <h2>admin</h2> -->
-      <form id="idForm" method="post" method="post", action="{% url 'api:answer-list' pk %}">
-        
-        <!-- <div class="content"> -->
-          <p>{{title}}</p>
-            <p>Text :</p>
-            <div class="search-box">
-              <textarea style="overflow: hidden" class="editable medium-editor-textarea medium-editor-element" name="description" cols="40" rows="10" required="" id="id_text"></textarea>
-            </div>
-        <!-- </div> -->
-        <input class="a-btn" type="submit" value="Submit">
 
-      </form>
-  </div>
-  <script>var editor = new MediumEditor('.editable');</script>
-    <script>
-        
-        var textarea = document.querySelector('.editable');
-        textarea.addEventListener('keydown', autosize);
-             
-        function autosize(){
-        var el = this;
-        setTimeout(function(){
-            el.style.cssText = 'height:auto; padding:0';
-            // for box-sizing other than "content-box" use:
-            el.style.cssText = '-moz-box-sizing:content-box';
-            el.style.cssText = 'height:' + el.scrollHeight + 'px';
-        },0);
-        }
+<style>
+  .editable {
+    padding: 10px;
+    width: 100%;
+    border-radius: 30px;
+    outline: none;
+    margin-bottom: 20px;
+    position: relative;
+  }
+</style>
+<div class="content">
+  <!-- <h2>admin</h2> -->
+  <form id="idForm" method="post" method="post" , action="{% url 'api_post:answer-list' pk %}">
 
-    </script>
+    <!-- <div class="content"> -->
+    <p>{{title}}</p>
+    <p>Text :</p>
+    <div class="search-box">
+      <textarea style="min-height:200px;" class="editable medium-editor-textarea medium-editor-element"
+        name="description" cols="40" rows="10" required="" id="id_text"></textarea>
+    </div>
+    <!-- </div> -->
+    <input class="a-btn" type="submit" value="Submit">
 
-  <script>
-    $("#idForm").submit(function(e) {
-    
-    
-        var form = $(this);
-        var url = form.attr('action');
-        $.ajax({
-               type: "POST",
-               url: url,
-               data: form.serialize(), // serializes the form's elements.
-               headers: {
-                    'Authorization': 'Token ' + window.localStorage.getItem('token')
-               },
-               success: function(data)
-               {
-                location.replace("{% url 'postapp:postdetail' pk %}");
-               },
-                error: function(data)
-                {
-                    console.log(data);
-                }
-             });
-    
-        e.preventDefault(); // avoid to execute the actual submit of the form.
+  </form>
+</div>
+<script>var editor = new MediumEditor('.editable');</script>
+
+
+<script>
+  $("#idForm").submit(function (e) {
+
+
+    var form = $(this);
+    var url = form.attr('action');
+    $.ajax({
+      type: "POST",
+      url: url,
+      data: form.serialize(), // serializes the form's elements.
+      headers: {
+        'Authorization': token
+      },
+      success: function (data) {
+        location.replace("{% url 'post:postdetail' pk %}");
+      },
+      error: function (data) {
+        // console.log(data);
+      }
     });
-    </script>
-  
-  
+
+    e.preventDefault(); // avoid to execute the actual submit of the form.
+  });
+</script>
+
+
 {% endblock content %}

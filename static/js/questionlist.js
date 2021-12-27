@@ -1,21 +1,27 @@
 var start = 1;
 var working = false;
+
+
 $(document).ready(function() {
+
 	$.ajax({
 			type: "GET",
 			url: questionlist_url+"?page="+start,
 			processData: false,
 			contentType: "application/json",
 			data: '',
+			headers: {
+					'Authorization': token
+					},
 			success: function(r) {
 				for (var i = 0; i < r['results'].length; i++) {
 						// $('body').append("<div><h1>"+r[i].videoName+"</h1><h2>Video Views: "+r[i].videoViews+"</h2></div>")
 						$('#container').append(
 							`<div class="content">
 								<div class="user-info">
-									<img src="${r['results'][i]['img_url']}" />
+									<img src="${r['results'][i].author['image']}" />
 									<a style='text-decoration:none' href="question/${r['results'][i]['id']}/">
-									<span>${r['results'][i]['username']}</span></a>
+									<span>${r['results'][i].author['username']}</span></a>
 								</div>
 
 								<h3>${r['results'][i]['title']}</h3>
@@ -44,16 +50,16 @@ $(window).scroll(function() {
 								contentType: "application/json",
 								data: '',
 								headers: {
-									'Authorization': 'Token ' + window.localStorage.getItem('token')
+									'Authorization': token
 									},
 								success: function(r) {
 										for (var i = 0; i <  r['results'].length; i++) {
 											$('#container').append(
 												`<div class="content">
 													<div class="user-info">
-														<img src="${r['results'][i]['img_url']}" />
+														<img src="${r['results'][i].author['image']}" />
 														<a style='text-decoration:none' href="question/${r['results'][i]['id']}">
-														<span>${r['results'][i]['username']}</span></a>
+														<span>${r['results'][i].author['username']}</span></a>
 													</div>
 
 													<h3>${r['results'][i]['title']}</h3>

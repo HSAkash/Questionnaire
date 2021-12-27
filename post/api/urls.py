@@ -1,26 +1,13 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 
-from api import views
+from . import views
 
-app_name = 'api'
-
-router = DefaultRouter()
-# router.register('', views.AnswerViewSet, basename='update-viewset')
-# router.register('', views.QuestionViewSet)
+app_name = 'api_post'
 
 urlpatterns = [
-    path('create/', views.CreateUserView.as_view(), name='create'),
-    path('token/', views.CreateTokenView.as_view(), name='token'),
-    path('manage/', views.ManagerUserView.as_view(), name='manage'),
-    # path('updateprofile/', include(router.urls)),
-    # path('draf/<int:pk>/publish', views.pulished_darf, name='draf-publish'),
+    path('draf/<int:pk>/publish/', views.pulished, name='publish'),
 ]
-
-from rest_framework import renderers
-
-
 
 
 question_list = views.QuestionViewSet.as_view({
@@ -62,7 +49,8 @@ urlpatterns += format_suffix_patterns([
     path('question/', question_list, name='question-list'),
     path('question/<int:pk>/', question_detail, name='question-detail'),
     path('question/<int:question>/answer/', answer_list, name='answer-list'),
-    path('question/<int:question>/answer/<int:pk>/', answer_detail, name='answer-detail'),
+    path('question/<int:question>/answer/<int:pk>/',
+         answer_detail, name='answer-detail'),
     path('draf/', darf_list, name='draf-list'),
     path('draf/<int:pk>/', darf_detail, name='draf-detail'),
 ])

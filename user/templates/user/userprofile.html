@@ -1,10 +1,10 @@
 {% extends 'post/base.html' %}
 {% load static %}
 {% block title %}
-  <title>{{title}}</title>
+<title>{{title}}</title>
 {% endblock title %}
 
-{% block content %} 
+{% block content %}
 <div class="content">
   <h2 id='username_profile'></h2>
   <p id='email_profile'></p>
@@ -15,31 +15,31 @@
   <img id="img_profile" src="#">
 </div>
 
-  <script>
-    var profile_url = "{% url 'api:manage' %}";
+<script>
+  var profile_url = "{% url 'api_user:manage' %}";
 
-    $(document).ready(function() {
+  $(document).ready(function () {
 
-      $.ajax({
-          type: "GET",
-          url: profile_url,
-          processData: false,
-          contentType: "application/json",
-          data: '',
-          headers: {
-                  'Authorization': 'Token ' + window.localStorage.getItem('token')
-                },
-          success: function(r) {
-            $('#username_profile').text(r.username);
-            $('#email_profile').text('Email : ' + r.email);
-            $('#img_profile').attr('src', r.image);
-          },
-          error: function(r) {
-              console.log("Something went wrong!");
-          }
-      });
-      
+    $.ajax({
+      type: "GET",
+      url: profile_url,
+      processData: false,
+      contentType: "application/json",
+      data: '',
+      headers: {
+        'Authorization': token
+      },
+      success: function (r) {
+        $('#username_profile').text(r.username);
+        $('#email_profile').text('Email : ' + r.email);
+        $('#img_profile').attr('src', r.image);
+      },
+      error: function (r) {
+        // console.log("Something went wrong!");
+      }
+    });
 
-    })
-  </script>
+
+  })
+</script>
 {% endblock content %}

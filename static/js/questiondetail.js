@@ -10,7 +10,7 @@ $(document).ready(function() {
 			contentType: "application/json",
 			data: '',
 			headers: {
-				'Authorization': 'Token ' + window.localStorage.getItem('token')
+				'Authorization': token
 				},
 			success: function(r) {
 				$('#container').append(
@@ -68,10 +68,10 @@ $(document).ready(function() {
 			contentType: "application/json",
 			data: '',
 			headers: {
-			  'Authorization': 'Token ' + localStorage.getItem('token')
+			  'Authorization': token
 			},
 			success: function(r) {
-			  window.location.href = "{% url 'postapp:postlist' %}";
+			  window.location.href = "{% url 'post:postlist' %}";
 			},
 			error: function(r) {
 				console.log("Something went wrong!");
@@ -88,7 +88,7 @@ $(document).ready(function() {
 		contentType: "application/json",
 		data: '',
 		headers: {
-			'Authorization': 'Token ' + window.localStorage.getItem('token')
+			'Authorization': token
 			},
 		success: function(r) {
 			for (var i = 0; i < r['results'].length; i++) {
@@ -128,7 +128,7 @@ $(document).ready(function() {
 					contentType: "application/json",
 					data: '',
 					headers: {
-						'Authorization': 'Token ' + window.localStorage.getItem('token')
+						'Authorization': token
 						},
 					success: function(r) {
 						for (var i = 0; i < r['results'].length; i++) {

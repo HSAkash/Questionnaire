@@ -6,7 +6,6 @@ from django.contrib.auth import authenticate
 from django.forms import PasswordInput, EmailInput
 
 
-
 class AccountUpdateForm(forms.ModelForm):
 
     class Meta:

@@ -1,28 +1,28 @@
 {% extends 'post/base.html' %}
 {% load static %}
 {% block title %}
-  <title>{{title}}</title>
-  <link rel="stylesheet" href="{% static 'css/button.css' %}">
+<title>{{title}}</title>
+<link rel="stylesheet" href="{% static 'css/button.css' %}">
 {% endblock title %}
 
 {% block content %}
 <div style="display: none" class="content" id='postdetail'>
   <div class="user-info">
     <img id='image' src="#" />
-    <span id='username' ></span>
+    <span id='username'></span>
   </div>
 
   <h3 id='title'></h3>
   <p id='description' class="text"></p>
-  <a id="editquestion" href="{% url 'postapp:editpost' pk %}">Edit</a>
+  <a id="editquestion" href="{% url 'post:editpost' pk %}">Edit</a>
   <a id="deletequestion" href="#">Delete</a>
   <a id="deleteconfirm" style="display:none" href="#">Confirm</a>
   <a id="deletecancle" style="display:none" href="#">Cancle</a>
 </div>
 
-<div  class="content" id='answercontent'>
+<div class="content" id='answercontent'>
   <h3 id="answer-count">Answers: ${r.total_answer}</h3>
-  <a  id="answer-give" href="{% url 'postapp:createanswer' pk %}" class="btn">
+  <a id="answer-give" href="{% url 'post:createanswer' pk %}" class="btn">
     <span></span>
     <span></span>
     <span></span>
@@ -34,72 +34,120 @@
 
 
 
-  <script>
-    var questiondetail_url = "{% url 'api:question-detail' pk %}";
-    var answerlist_url = "{% url 'api:answer-list' pk %}";
-    var questionlist_url = "{% url 'api:question-list' %}";
-  </script>
-  <script>
-    var start = 1;
-    var working = false;
-    $(document).ready(function() {
-      $.ajax({
-          type: "GET",
-          url: questiondetail_url,
-          processData: false,
-          contentType: "application/json",
-          data: '',
-          headers: {
-              'Authorization': 'Token ' + window.localStorage.getItem('token')
-              },
-          success: function(r) {
-            $('#postdetail').show();
-            $('#image').attr('src', r.img_url);
-            $('#username').text(r.username);
-            $('#title').text(r.title);
-            $('#description').append(r.description);
+<script>
+  var questiondetail_url = "{% url 'api_post:question-detail' pk %}";
+  var answerlist_url = "{% url 'api_post:answer-list' pk %}";
+  var questionlist_url = "{% url 'api_post:question-list' %}";
+  var user = "{{user}}";
+</script>
+<script>
+  var start = 1;
+  var working = false;
+  $(document).ready(function () {
+    $.ajax({
+      type: "GET",
+      url: questiondetail_url,
+      processData: false,
+      contentType: "application/json",
+      data: '',
+      headers: {
+        'Authorization': token
+      },
+      success: function (r) {
+        $('#postdetail').show();
+        $('#image').attr('src', r.author.image);
+        $('#username').text(r.author.username);
+        $('#title').text(r.title);
+        $('#description').append(r.description);
 
-            $('answercontent').show();
-            $('#answer-count').text('Answers: ' + r.total_answer);
-            if(!r.woner){
-              $('#editquestion').remove();
-              $('#deletequestion').remove();
-              $('#deleteconfirm').remove();
-              $('#deletecancle').remove();
-            }
-          },
-          error: function(r) {
-              console.log("Something went wrong!");
+        $('answercontent').show();
+        $('#answer-count').text('Answers: ' + r.total_answer);
+        if (r.author.username !== user) {
+          $('#editquestion').remove();
+          $('#deletequestion').remove();
+          $('#deleteconfirm').remove();
+          $('#deletecancle').remove();
+        }
+      },
+      error: function (r) {
+        console.log("Something went wrong!");
+      }
+    });
+
+
+    `answer`
+    $.ajax({
+      type: "GET",
+      url: `${answerlist_url}?page=${start}`,
+      processData: false,
+      contentType: "application/json",
+      data: '',
+      headers: {
+        'Authorization': token
+      },
+      success: function (r) {
+        for (var i = 0; i < r['results'].length; i++) {
+          // $('body').append("<div><h1>"+r[i].videoName+"</h1><h2>Video Views: "+r[i].videoViews+"</h2></div>")
+          var data = "";
+          if (r['results'][i].author.username == user) {
+            var delete_url = `{% url 'api_post:answer-list' pk %}${r['results'][i].id}/`;
+            data = `
+                  <a href="{% url 'post:postdetail' pk %}answer/${r['results'][i].id}/edit/">Edit</a>
+                  <a onclick="reloadpage('${delete_url}')" href="#">Delete</a>
+                  `
           }
-      });
+          $('#container').append(
+            `<div class="content">
+                    <div class="user-info">
+                      <img src="${r['results'][i].author['image']}" />
+                      <span>${r['results'][i].author['username']}</span>
+                    </div>
+                    ${data}
+                    <p class="text">${r['results'][i].description}</p>
+                    
+                  </div>
+                  `
+          )
+        }
+        start += 1;
+      },
+      error: function (r) {
+        console.log("Something went wrong!");
+      }
+    });
 
 
-      `answer`
-        $.ajax({
-          type: "GET",
-          url: `${answerlist_url}?page=${start}`,
-          processData: false,
-          contentType: "application/json",
-          data: '',
-          headers: {
-              'Authorization': 'Token ' + window.localStorage.getItem('token')
-              },
-          success: function(r) {
-            console.log(r['results'].length);
-            for (var i = 0; i < r['results'].length; i++) {
+    $(window).scroll(function () {
+      if ($(this).scrollTop() + 1 >= $('body').height() - $(window).height()) {
+        if (working == false) {
+          working = true;
+          `answer`
+          $.ajax({
+            type: "GET",
+            url: `${answerlist_url}?page=${start}`,
+            processData: false,
+            contentType: "application/json",
+            data: '',
+            headers: {
+              'Authorization': token
+            },
+            success: function (r) {
+              for (var i = 0; i < r['results'].length; i++) {
                 // $('body').append("<div><h1>"+r[i].videoName+"</h1><h2>Video Views: "+r[i].videoViews+"</h2></div>")
+
                 var data = "";
-                if(r['results'][i].woner){
+                if (r['results'][i].author.username == user) {
+                  var delete_url = `{% url 'api_post:answer-list' pk %}${r['results'][i].id}/`;
                   data = `
-                  <a href="{% url 'postapp:postdetail' pk %}answer/${r['results'][i].id}/edit/">Edit</a>
-                  <a onclick="reloadpage('${r['results'][i].answer_edit_url}')" href="#">Delete</a>
+                  <a href="{% url 'post:postdetail' pk %}answer/${r['results'][i].id}/edit/">Edit</a>
+                  <a onclick="reloadpage('${delete_url}')" href="#">Delete</a>
                   `
                 }
                 $('#container').append(
                   `<div class="content">
                     <div class="user-info">
-                      <img src="${r['results'][i]['img_url']}" />
-                      <span>${r['results'][i]['username']}</span>
+                      <img src="${r['results'][i].author['image']}" />
+                      <span>${r['results'][i].author['username']}</span>
                     </div>
                     ${data}
                     <p class="text">${r['results'][i].description}</p>
@@ -107,111 +155,71 @@
                   </div>
                   `
                 )
-            }
-            start += 1;
-          },
-          error: function(r) {
-              console.log("Something went wrong!");
-          }
-        });
-
-        
-        $(window).scroll(function() {
-        if ($(this).scrollTop() + 1 >= $('body').height() - $(window).height()) {
-          if (working == false) {
-            working = true;
-            `answer`
-            $.ajax({
-              type: "GET",
-              url:  `${answerlist_url}?page=${start}`,
-              processData: false,
-              contentType: "application/json",
-              data: '',
-              headers: {
-              'Authorization': 'Token ' + window.localStorage.getItem('token')
-              },
-              success: function(r) {
-                console.log(r['results']);
-                for (var i = 0; i < r['results'].length; i++) {
-                    // $('body').append("<div><h1>"+r[i].videoName+"</h1><h2>Video Views: "+r[i].videoViews+"</h2></div>")
-                    $('#container').append(
-                      `<div class="content">
-                        <div class="user-info">
-                          <img src="${r['results'][i]['img_url']}" />
-                          <span>${r['results'][i]['username']}</span>
-                        </div>
-      
-                        <p class="text">${r['results'][i].description}</p>
-                        <a href="{% url 'postapp:postdetail' pk %}answer/${r['results'][i].id}/edit/">Edit</a>
-                        <a onclick="reloadpage('${r['results'][i].answer_edit_url}')" href="#">Delete</a>
-                      </div>
-                      `
-                    )
-                }
-                start += 1;
-              },
-              error: function(r) {
-                  console.log("Something went wrong!");
               }
-            });
-          }
+              start += 1;
+            },
+            error: function (r) {
+              console.log("Something went wrong!");
+            }
+          });
         }
-      })
+      }
+    })
 
 
       `delete answer`
 
-    })
-    function reloadpage(delete_url){
-      $.ajax({
-          type: "DELETE",
-          url: delete_url,
-          processData: false,
-          contentType: "application/json",
-          data: '',
-          headers: {
-            'Authorization': 'Token ' + localStorage.getItem('token')
-          },
-          success: function(r) {
-            window.location.href = "{% url 'postapp:postdetail' pk %}";
-          },
-          error: function(r) {
-              console.log("Something went wrong!");
-          }
-      });
-      
-    }
-
-    $('#deletequestion').click(function() {
-      $('#deleteconfirm').show();
-      $('#deletecancle').show();
-      $('#deletequestion').hide();
+  })
+  function reloadpage(delete_url) {
+    $.ajax({
+      type: "DELETE",
+      url: delete_url,
+      processData: false,
+      contentType: "application/json",
+      data: '',
+      headers: {
+        'Authorization': token
+      },
+      success: function (r) {
+        window.location.href = "{% url 'post:postdetail' pk %}";
+      },
+      error: function (r) {
+        console.log("Something went wrong!");
+      }
     });
 
-    $('#deletecancle').click(function() {
-      $('#deleteconfirm').hide();
-      $('#deletecancle').hide();
-      $('#deletequestion').show();
+  }
+
+  $('#deletequestion').click(function () {
+    $('#deleteconfirm').show();
+    $('#deletecancle').show();
+    $('#deletequestion').hide();
+  });
+
+  $('#deletecancle').click(function () {
+    $('#deleteconfirm').hide();
+    $('#deletecancle').hide();
+    $('#deletequestion').show();
+  });
+  $('#deleteconfirm').click(function () {
+    $.ajax({
+      type: "DELETE",
+      url: questiondetail_url,
+      processData: false,
+      contentType: "application/json",
+      data: '',
+      headers: {
+        'Authorization': token
+      },
+      success: function (r) {
+        window.location.href = "{% url 'post:postlist' %}";
+      },
+      error: function (r) {
+        console.log("Something went wrong!");
+      }
     });
-    $('#deleteconfirm').click(function() {
-      $.ajax({
-          type: "DELETE",
-          url: questiondetail_url,
-          processData: false,
-          contentType: "application/json",
-          data: '',
-          headers: {
-            'Authorization': 'Token ' + localStorage.getItem('token')
-          },
-          success: function(r) {
-            window.location.href = "{% url 'postapp:postlist' %}";
-          },
-          error: function(r) {
-              console.log("Something went wrong!");
-          }
-      });
-    });
+  });
 
 
-  </script>
+</script>
 {% endblock content %}

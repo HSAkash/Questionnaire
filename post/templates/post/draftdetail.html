@@ -1,80 +1,80 @@
 {% extends 'post/base.html' %}
 {% load static %}
 {% block title %}
-  <title>{{title}}</title>
+<title>{{title}}</title>
 {% endblock title %}
 
 {% block content %}
-  <div style='display:none' class="content" id="draftcontent">
-    <h3 id='title'></h3>
-    <p id="description" class="text"></p>
-    <a id='publish' href="{% url 'postapp:draf_publish' pk %}">Publish</a>
-    <a href="{% url 'postapp:draftedit' pk %}">Edit</a>
-    <a id="deletedraft" href="#">Delete</a>
-    <a id="deleteconfirm" style="display:none" href="#">Confirm</a>
-    <a id="deletecancle" style="display:none" href="#">Cancle</a>
-  </div>
+<div style='display:none' class="content" id="draftcontent">
+  <h3 id='title'></h3>
+  <p id="description" class="text"></p>
+  <a id='publish' href="{% url 'post:draf_publish' pk %}">Publish</a>
+  <a href="{% url 'post:draftedit' pk %}">Edit</a>
+  <a id="deletedraft" href="#">Delete</a>
+  <a id="deleteconfirm" style="display:none" href="#">Confirm</a>
+  <a id="deletecancle" style="display:none" href="#">Cancle</a>
+</div>
 
-  <script>
-    var draft_url = "{% url 'api:draf-detail' pk %}";
+<script>
+  var draft_url = "{% url 'api_post:draf-detail' pk %}";
 
-    $(document).ready(function() {
+  $(document).ready(function () {
 
-      $.ajax({
-          type: "GET",
-          url: draft_url,
-          processData: false,
-          contentType: "application/json",
-          data: '',
-          headers: {
-									'Authorization': 'Token ' + window.localStorage.getItem('token')
-							   },
-          success: function(r) {
-            $('#draftcontent').show();
-            $('#title').text(r.title);
-            $('#description').append(r.description);
-          },
-          error: function(r) {
-              console.log("Something went wrong!");
-          }
-      });
-      
-
-    })
-
-
-
-    $('#deletedraft').click(function() {
-      $('#deleteconfirm').show();
-      $('#deletecancle').show();
-      $('#deletedraft').hide();
+    $.ajax({
+      type: "GET",
+      url: draft_url,
+      processData: false,
+      contentType: "application/json",
+      data: '',
+      headers: {
+        'Authorization': token
+      },
+      success: function (r) {
+        $('#draftcontent').show();
+        $('#title').text(r.title);
+        $('#description').append(r.description);
+      },
+      error: function (r) {
+        console.log("Something went wrong!");
+      }
     });
 
-    $('#deletecancle').click(function() {
-      $('#deleteconfirm').hide();
-      $('#deletecancle').hide();
-      $('#deletedraft').show();
-    });
 
-    $('#deleteconfirm').click(function() {
-      $.ajax({
-          type: "DELETE",
-          url: draft_url,
-          processData: false,
-          contentType: "application/json",
-          data: '',
-          headers: {
-            'Authorization': 'Token ' + localStorage.getItem('token')
-          },
-          success: function(r) {
-            window.location.href = "{% url 'postapp:draflist' %}";
-          },
-          error: function(r) {
-              console.log("Something went wrong!");
-          }
-      });
-    });
+  })
 
-    
-  </script>
+
+
+  $('#deletedraft').click(function () {
+    $('#deleteconfirm').show();
+    $('#deletecancle').show();
+    $('#deletedraft').hide();
+  });
+
+  $('#deletecancle').click(function () {
+    $('#deleteconfirm').hide();
+    $('#deletecancle').hide();
+    $('#deletedraft').show();
+  });
+
+  $('#deleteconfirm').click(function () {
+    $.ajax({
+      type: "DELETE",
+      url: draft_url,
+      processData: false,
+      contentType: "application/json",
+      data: '',
+      headers: {
+        'Authorization': token,
+      },
+      success: function (r) {
+        window.location.href = "{% url 'post:draflist' %}";
+      },
+      error: function (r) {
+        console.log("Something went wrong!");
+      }
+    });
+  });
+
+
+</script>
 {% endblock content %}
