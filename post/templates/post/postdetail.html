@@ -58,7 +58,7 @@
         $('#image').attr('src', r.author.image);
         $('#username').text(r.author.username);
         $('#title').text(r.title);
-        $('#description').append(r.description);
+        $('#description').append(`<md-block>${r.description}</md-block>`);
 
         $('answercontent').show();
         $('#answer-count').text('Answers: ' + r.total_answer);
@@ -103,7 +103,7 @@
                       <span>${r['results'][i].author['username']}</span>
                     </div>
                     ${data}
-                    <p class="text">${r['results'][i].description}</p>
+                    <md-block>${r['results'][i].description}</md-block>
                     
                   </div>
                   `
@@ -150,7 +150,7 @@
                       <span>${r['results'][i].author['username']}</span>
                     </div>
                     ${data}
-                    <p class="text">${r['results'][i].description}</p>
+                    <md-block>${r['results'][i].description}</md-block>
                     
                   </div>
                   `

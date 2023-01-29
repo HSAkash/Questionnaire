@@ -17,7 +17,7 @@ $(document).ready(function() {
 							`<div class="content">
 
 								<h3>${r['results'][i]['title']}</h3>
-								<p class="text">${r['results'][i].description}</p>
+								<md-block>${r['results'][i].description}</md-block>
 								<a href="${r['results'][i]['id']}/">Read More</a>
 							</div>
 							`
@@ -50,7 +50,7 @@ $(window).scroll(function() {
 												`<div class="content">
 
 													<h3>${r['results'][i]['title']}</h3>
-													<p class="text">${r['results'][i].description}</p>
+													<md-block>${r['results'][i].description}</md-block>
 													<a href="${r['results'][i]['id']}">Read More</a>
 												</div>
 												`

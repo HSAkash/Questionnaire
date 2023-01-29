@@ -31,8 +31,25 @@
     <input class="a-btn" type="submit" value="Submit">
 
   </form>
+
+  <!-- markdown file start -->
+<a id="preview-btn" href="#" class="a-btn">Preview</a>
+<div style="clear:both;" id="markdown_show" class="content">
+  
 </div>
-<script>var editor = new MediumEditor('.editable');</script>
+
+<!-- markdown file end -->
+</div>
+<!-- markdown file start -->
+<script>
+  $("#preview-btn").click(function (e) {
+    var text = $("#id_text").val();
+    $("#markdown_show").empty();
+    $("#markdown_show").append(`<md-block>${text}</md-block>`);
+  });
+
+</script>
+<!-- markdown file end -->
 
 
 <script>

@@ -21,7 +21,7 @@ $(document).ready(function() {
 						</div>
 
 						<h3>${r['title']}</h3>
-						<p class="text">${r.description}</p>
+						<md-block>${r.description}</md-block>
 						<a href="#">Edit</a>
 						<a id="deletedraft" href="#">Delete</a>
 						<a id="deleteconfirm" style="display:none" href="#">Confirm</a>
@@ -101,7 +101,8 @@ $(document).ready(function() {
 								<span>${r['results'][i]['username']}</span></a>
 							</div>
 
-							<p class="text">${r['results'][i].description}</p>
+							<md-block>${r['results'][i].description}</md-block>
+							
 							<a href="#">Edit</a>
 							<a href="#">Delete</a>
 						</div>
@@ -141,7 +142,8 @@ $(document).ready(function() {
 											<span>${r['results'][i]['username']}</span></a>
 										</div>
 	
-										<p class="text">${r['results'][i].description}</p>
+										<md-block>${r['results'][i].description}</md-block>
+										
 										<a href="#">Edit</a>
 										<a href="#">Delete</a>
 									</div>

@@ -488,3 +488,32 @@ blockquote {
 .hide {
   display: none;
 }
+
+
+.editable {
+  padding: 10px;
+  width: 100%;
+  border-radius: 30px;
+  outline: none;
+  margin-bottom: 20px;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+md-block img {
+  position: relative;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  
+}
+
+md-block {
+  text-align: justify;
+  
+}

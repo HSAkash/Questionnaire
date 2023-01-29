@@ -32,11 +32,24 @@
     <input class="a-btn" type="submit" value="Submit">
 
   </form>
+  <!-- markdown file start -->
+<a id="preview-btn" href="#" class="a-btn">Preview</a>
+<div style="clear:both;" id="markdown_show" class="content">
+  
 </div>
+
+<!-- markdown file end -->
+</div>
+<!-- markdown file start -->
 <script>
-  var editor = new MediumEditor('.editable');
+  $("#preview-btn").click(function (e) {
+    var text = $("#id_text").val();
+    $("#markdown_show").empty();
+    $("#markdown_show").append(`<md-block>${text}</md-block>`);
+  });
 
 </script>
+<!-- markdown file end -->
 
 
 
@@ -52,7 +65,8 @@
         'Authorization': token
       },
       success: function (r) {
-        $('#valure_replase').replaceWith(r.description);
+        $("#id_text").empty();
+        $("#id_text").append(`${r.description}`);
       },
       error: function (r) {
         // console.log("Something went wrong!");

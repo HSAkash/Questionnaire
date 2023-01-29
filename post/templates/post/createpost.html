@@ -2,19 +2,13 @@
 {% load static %}
 {% block title %}
 <title>Ask Question</title>
+
+
 {% endblock title %}
 
 {% block content %}
 
-<style>
-  .editable {
-    padding: 10px;
-    width: 100%;
-    border-radius: 30px;
-    outline: none;
-    margin-bottom: 20px;
-  }
-</style>
+
 <div class="content">
   <!-- <h2>admin</h2> -->
   <form id="idForm" method="post" method="post" , action="{% url 'api_post:question-list' %}">
@@ -26,18 +20,31 @@
     </div>
     <p>Text :</p>
     <div class="search-box">
-      <textarea style="min-height:200px;" class="editable medium-editor-textarea medium-editor-element"
+      <textarea style="min-height:200px;" class="editable scrollbar-hide"
         name="description" cols="40" rows="10" required="" id="id_text"></textarea>
     </div>
     <!-- </div> -->
     <input class="a-btn" type="submit" value="Submit">
 
   </form>
+  <a id="preview-btn" href="#" class="a-btn">Preview</a>
+  <div style="clear:both;" id="markdown_show" class="content">
+    
+  </div>
 </div>
+
+
+
+<!-- markdown file start -->
 <script>
-  var editor = new MediumEditor('.editable');
+  $("#preview-btn").click(function (e) {
+    var text = $("#id_text").val();
+    $("#markdown_show").empty();
+    $("#markdown_show").append(`<md-block>${text}</md-block>`);
+  });
 
 </script>
+<!-- markdown file end -->
 
 <script>
   $("#idForm").submit(function (e) {
